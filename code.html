@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tesla FleetAPI Setup</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .code {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            color: blue;
+            padding: 2px 4px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tesla FleetAPI Setup</h1>
+    <p>Copy the code below and paste it into the "code" field in the Tesla FleetAPI setup script.</p>
+    <h3>Authorization Code</h3>
+    <script>
+        // Function to extract GET parameter from URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Get the value of the "code" parameter
+        var code = getParameterByName('code');
+
+        // If the "code" parameter is not present, display an error message
+        if (!code) {
+            var errorDiv = document.createElement('p');
+            errorDiv.textContent = 'Error: "code" parameter is missing from the URL.';
+            document.body.appendChild(errorDiv);
+        }
+        else {
+            var codeDiv = document.createElement('div');
+            codeDiv.className = 'code';
+            var codeSpan = document.createElement('span');
+            codeSpan.textContent = code;
+            var copyButton = document.createElement('button');
+            copyButton.textContent = 'Copy';
+            copyButton.onclick = copyToClipboard;
+            codeDiv.appendChild(codeSpan);
+            codeDiv.appendChild(document.createTextNode(' '));
+            codeDiv.appendChild(copyButton);
+            document.body.appendChild(codeDiv);
+        }
+
+        // Function to copy the code to clipboard
+        function copyToClipboard() {
+            var tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Code copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
